@@ -309,7 +309,8 @@
     </footer>
 
     <script>
-      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHx777Z8crIRwm31uHwvCA318nmxC_sPuz6P7nsroQ84zkHB6CaJH9mXf-QNRmBZI/exec";
+      const BOT_TOKEN = "7594707051:AAEnnYPN3GDqSKMLycPCWl91mOnVRVlxsCY";
+      const CHAT_ID   = "6240378864";
 
       async function sendMessage() {
         const name    = document.getElementById("name").value.trim();
@@ -318,11 +319,9 @@
         const btn     = document.getElementById("sendBtn");
         const status  = document.getElementById("statusBox");
 
-        // Reset status
         status.className = "status";
         status.textContent = "";
 
-        // Validation
         if (!name || !email || !message) {
           status.className = "status error";
           status.textContent = "⚠ Please fill in all fields before sending.";
@@ -337,11 +336,13 @@
         btn.disabled = true;
         btn.textContent = "Sending...";
 
+        const text = `📩 New Message from Weblog\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
+
         try {
-          const res = await fetch(SCRIPT_URL, {
+          const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, message })
+            body: JSON.stringify({ chat_id: CHAT_ID, text })
           });
 
           const data = await res.json();
@@ -353,7 +354,7 @@
             document.getElementById("email").value = "";
             document.getElementById("message").value = "";
           } else {
-            throw new Error("Server error");
+            throw new Error(data.description || "Unknown error");
           }
         } catch (err) {
           status.className = "status error";
