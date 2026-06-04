@@ -1,0 +1,281 @@
+:root {
+
+  /* =========================
+     Background & Body
+     ========================= */
+
+  --background: #1b110a;
+  --text: #f3dfd1;
+  --text-muted: #ddc1ae;
+
+  /* =========================
+     Surfaces & Cards
+     ========================= */
+
+  --surface: #281d15;
+  --surface-hover: #33281f;
+  --surface-alt: #3f3229;
+
+  /* =========================
+     Brand Colors
+     ========================= */
+
+  --primary: #ffb77d;
+  --primary-dark: #ff8c00;
+
+  --on-primary: #4d2600;
+
+  /* =========================
+     Borders
+     ========================= */
+
+  --border: #564334;
+  --border-strong: #a48c7a;
+
+  /* =========================
+     Secondary
+     ========================= */
+
+  --secondary: #c6c6c7;
+  --secondary-dark: #454747;
+
+  /* =========================
+     Info / Accent
+     ========================= */
+
+  --accent: #85cfff;
+  --accent-dark: #00b5fc;
+
+  /* =========================
+     Error
+     ========================= */
+
+  --error: #ffb4ab;
+  --error-bg: #93000a;
+
+  /* =========================
+     Navbar
+     ========================= */
+
+  --navbar-bg: var(--surface);
+  --navbar-text: var(--text);
+
+  /* =========================
+     Cards
+     ========================= */
+
+  --card-bg: var(--surface);
+  --card-hover: var(--surface-hover);
+  --card-border: var(--border);
+
+  /* =========================
+     Buttons
+     ========================= */
+
+  --btn-primary-bg: var(--primary-dark);
+  --btn-primary-text: var(--on-primary);
+
+  --btn-secondary-bg: transparent;
+  --btn-secondary-text: var(--text);
+  --btn-secondary-border: var(--border-strong);
+
+  /* =========================
+     Footer
+     ========================= */
+
+  --footer-bg: var(--surface);
+  --footer-text: var(--text-muted);
+}
+* {
+  margin: 0;
+  padding:0;
+}
+body {
+  font-family: sans-serif;
+}
+@keyframes inter {
+  from {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* ==============navbar===============*/
+
+.navbar {
+  background: var(--navbar-bg);
+  height: 72px;
+  border-bottom: 1px solid var(--border);
+}
+.navbar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: min(1100px, calc(100% - 48px));
+  height: 100%;
+  margin: 0 auto;
+}
+.brand {
+  display: flex;
+  gap: 8px;
+  
+  align-items: center;
+  text-decoration: none;
+  color: var(--navbar-text);
+}
+.logo{
+  height: 65px;
+  width: 36;
+  object-fit: contain;
+}
+.brand span{
+  letter-spacing: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-left: -0.5rem;
+}
+.contact-btn{
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 16px;
+  font-weight: 600;
+  color: var(--on-primary);
+  border: 2px solid transparent;
+  background: var(--primary);
+  -webkit-tap-highlight-color: transparent;
+  height: auto;
+  white-space: nowrap;
+}
+.contact-btn:active{
+  transform: scale(0.94);
+}
+/* ============ End Of Navbar ==========*/
+
+
+/* =========== my stats =======*/
+.hero{
+  background: var(--background);
+  height: 25rem;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: min(1100, calc(100% - 48px));
+  margin: 0 auto;
+  gap: 25px;
+  align-items:center;
+  text-align: center;
+}
+.hero-image{
+  width: 350px;
+  height: auto;
+  margin-top: 2rem;
+  border: 2px solid var(--border);
+}
+.stats{
+  display: flex;
+  flex-direction: row;
+  gap: 22px;
+  padding: 20px;
+  margin-top: -2rem;
+}
+.stat-card{
+  color: var(--primary);
+  border: 2px solid var(--border);
+  padding: 20px;
+  background: var(--surface);
+}
+.stat-card p{
+  color: var(--text-muted);
+  animation: inter 2s ease-out forwards;
+}
+.stat-card h2{
+  text-align: left;
+  animation: inter 4s ease-out forwards;
+}
+/* =========== end of my stats ============*/
+
+/* ============ about me ==================*/
+.about{
+  height: 250vh;
+  background: var(--background);
+}
+.about-container{
+  width: min(1100, calc(100% - 48px));
+  margin: 0 2rem;
+  text-align: left;
+  
+}
+.about h1{
+  text-align: left;
+  color: var(--text);
+  max-width: 280px;
+}
+.about p{
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 65ch;
+}
+.socials{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+.socials-card{
+  display: flex;
+  flex-direction: row;
+  gap: 85px;
+  border: 2px solid var(--border);
+  padding: 20px 12px;
+  background: var(--surface);
+  text-decoration: none;
+  align-content: center;
+}
+.socials-card span{
+  color: var(--text);
+  align-items: center;
+}
+/* =============end of About me==========*/
+.footer{
+  background: var(--footer-bg);
+  height: 20vh;
+  border-top: 1px solid var(--border-strong);
+}
+.footer-container{
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-links{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  text-align: center;
+  align-items: center;
+  margin-top: 0.6rem;
+  margin-left: 4.18rem;
+}
+.footer-container h2 {
+  margin-top: 1.5rem;
+  display: block;
+  color: var(--primary);
+  text-align: center;
+}
+.footer-link{
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 20px;
+}
+.footer-container span{
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 0.9rem;
+}
