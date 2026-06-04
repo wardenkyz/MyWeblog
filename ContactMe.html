@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Contact Me — WARDEN</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      :root {
+        --background: #1b110a;
+        --text: #f3dfd1;
+        --text-muted: #ddc1ae;
+        --surface: #281d15;
+        --surface-hover: #33281f;
+        --surface-alt: #3f3229;
+        --primary: #ffb77d;
+        --primary-dark: #ff8c00;
+        --on-primary: #4d2600;
+        --border: #564334;
+        --border-strong: #a48c7a;
+        --secondary: #c6c6c7;
+        --accent: #85cfff;
+        --accent-dark: #00b5fc;
+        --error: #ffb4ab;
+        --error-bg: #93000a;
+        --navbar-bg: var(--surface);
+        --footer-bg: var(--surface);
+        --footer-text: var(--text-muted);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: sans-serif;
+        background: var(--background);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ===== NAVBAR ===== */
+      .navbar {
+        background: var(--navbar-bg);
+        height: 72px;
+        border-bottom: 1px solid var(--border);
+      }
+      .navbar-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: min(1100px, calc(100% - 48px));
+        height: 100%;
+        margin: 0 auto;
+      }
+      .brand {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text);
+      }
+      .logo {
+        height: 65px;
+        width: 36px;
+        object-fit: contain;
+      }
+      .brand span {
+        letter-spacing: 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: -0.5rem;
+      }
+      .contact-btn {
+        display: inline-block;
+        text-decoration: none;
+        padding: 8px 16px;
+        font-weight: 600;
+        color: var(--on-primary);
+        border: 2px solid transparent;
+        background: var(--primary);
+        -webkit-tap-highlight-color: transparent;
+        white-space: nowrap;
+      }
+      .contact-btn:active { transform: scale(0.94); }
+
+      /* ===== MAIN ===== */
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 60px 24px;
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 48px;
+        animation: fadeUp 0.6s ease-out forwards;
+      }
+      .page-header h1 {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        letter-spacing: 0.15em;
+        color: var(--primary);
+        text-transform: uppercase;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+      .page-header p {
+        color: var(--text-muted);
+        font-size: 1rem;
+        max-width: 45ch;
+        line-height: 1.7;
+        margin: 0 auto;
+      }
+
+      /* ===== FORM CARD ===== */
+      .form-card {
+        width: 100%;
+        max-width: 560px;
+        background: var(--surface);
+        border: 2px solid var(--border);
+        padding: 40px 36px;
+        animation: fadeUp 0.7s ease-out 0.1s both;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+
+      label {
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+
+      input, textarea {
+        background: var(--background);
+        border: 2px solid var(--border);
+        color: var(--text);
+        padding: 12px 16px;
+        font-size: 1rem;
+        font-family: sans-serif;
+        outline: none;
+        transition: border-color 0.2s;
+        width: 100%;
+        resize: none;
+      }
+      input::placeholder, textarea::placeholder {
+        color: var(--border-strong);
+      }
+      input:focus, textarea:focus {
+        border-color: var(--primary);
+      }
+      textarea {
+        min-height: 140px;
+      }
+
+      /* ===== SUBMIT BTN ===== */
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background: var(--primary-dark);
+        color: var(--on-primary);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+        font-family: sans-serif;
+        margin-top: 8px;
+      }
+      .submit-btn:hover { background: var(--primary); }
+      .submit-btn:active { transform: scale(0.97); }
+      .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* ===== STATUS MESSAGES ===== */
+      .status {
+        margin-top: 20px;
+        padding: 14px 18px;
+        font-size: 0.95rem;
+        display: none;
+        border: 2px solid;
+      }
+      .status.success {
+        display: block;
+        border-color: var(--primary);
+        color: var(--primary);
+        background: rgba(255,140,0,0.08);
+      }
+      .status.error {
+        display: block;
+        border-color: var(--error);
+        color: var(--error);
+        background: rgba(147,0,10,0.15);
+      }
+
+      /* ===== FOOTER ===== */
+      .footer {
+        background: var(--footer-bg);
+        height: 20vh;
+        border-top: 1px solid var(--border-strong);
+      }
+      .footer-container {
+        width: min(1100px, calc(100% - 48px));
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .footer-links {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        text-align: center;
+        align-items: center;
+        margin-top: 0.6rem;
+        margin-left: 4.18rem;
+      }
+      .footer-container h2 {
+        margin-top: 1.5rem;
+        display: block;
+        color: var(--primary);
+        text-align: center;
+      }
+      .footer-link {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 20px;
+      }
+      .footer-container span {
+        text-align: center;
+        color: var(--text-muted);
+        margin-top: 0.9rem;
+      }
+
+      /* ===== ANIMATION ===== */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <nav class="navbar">
+        <div class="navbar-container">
+          <a href="index.html" class="brand">
+            <img class="logo" src="images/Logo.png" alt="Warden Logo">
+            <span>WARDEN</span>
+          </a>
+          <a href="ContactMe.html" class="contact-btn">Contact me</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="page-header">
+        <h1>Contact Me</h1>
+        <p>Have a question, project idea, or just want to say hi? Send me a message and I'll get back to you.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="e.g. Ali Rezaei" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="example@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Write your message here..."></textarea>
+        </div>
+
+        <button class="submit-btn" id="sendBtn" onclick="sendMessage()">Send Message</button>
+
+        <div class="status" id="statusBox"></div>
+      </div>
+    </main>
+
+    <footer>
+      <section class="footer">
+        <div class="footer-container">
+          <h2>WARDEN</h2>
+          <div class="footer-links">
+            <a href="#" class="footer-link">sitemap</a>
+            <a href="#" class="footer-link">privacy</a>
+            <a href="#" class="footer-link">RSS</a>
+          </div>
+          <span>© Warden.Row & Direct</span>
+        </div>
+      </section>
+    </footer>
+
+    <script>
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfrFk9c3uKFNe_82EjRJOZULMU9qGgbiY-jIbopwoMH4vD73P7aWSzjzMdRaaiG2JL/exec";
+
+      async function sendMessage() {
+        const name    = document.getElementById("name").value.trim();
+        const email   = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+        const btn     = document.getElementById("sendBtn");
+        const status  = document.getElementById("statusBox");
+
+        // Reset status
+        status.className = "status";
+        status.textContent = "";
+
+        // Validation
+        if (!name || !email || !message) {
+          status.className = "status error";
+          status.textContent = "⚠ Please fill in all fields before sending.";
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          status.className = "status error";
+          status.textContent = "⚠ Please enter a valid email address.";
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+
+        try {
+          const res = await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, message })
+          });
+
+          const data = await res.json();
+
+          if (data.ok) {
+            status.className = "status success";
+            status.textContent = "✓ Message sent! I'll get back to you soon.";
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("message").value = "";
+          } else {
+            throw new Error("Server error");
+          }
+        } catch (err) {
+          status.className = "status error";
+          status.textContent = "✕ Failed to send. Please try again later.";
+        }
+
+        btn.disabled = false;
+        btn.textContent = "Send Message";
+      }
+    </script>
+
+  </body>
+</html>
