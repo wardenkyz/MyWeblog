@@ -159,7 +159,7 @@ body {
 /* =========== my stats =======*/
 .hero{
   background: var(--background);
-  height: 25rem;
+  padding: 48px 0;
 }
 .container{
   display: flex;
@@ -202,7 +202,7 @@ body {
 
 /* ============ about me ==================*/
 .about{
-  height: 250vh;
+  padding: 48px 0;
   background: var(--background);
 }
 .about-container{
