@@ -245,6 +245,31 @@
         margin-top: 0.9rem;
       }
 
+      /* ===== LOCATION BTN ===== */
+      .location-btn {
+        background: var(--background);
+        border: 2px solid var(--border);
+        color: var(--text);
+        padding: 12px 16px;
+        font-size: 1rem;
+        font-family: sans-serif;
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+        transition: border-color 0.2s;
+      }
+      .location-btn:hover { border-color: var(--primary); }
+      .location-btn.got {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+      .location-status {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+        display: block;
+      }
+
       /* ===== ANIMATION ===== */
       @keyframes fadeUp {
         from { opacity: 0; transform: translateY(20px); }
@@ -288,6 +313,14 @@
           <textarea id="message" placeholder="Write your message here..."></textarea>
         </div>
 
+        <div class="form-group">
+          <label>Location <span style="color:var(--border-strong);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <button type="button" class="location-btn" id="locationBtn" onclick="getLocation()">
+            📍 Share My Location
+          </button>
+          <span class="location-status" id="locationStatus"></span>
+        </div>
+
         <button class="submit-btn" id="sendBtn" onclick="sendMessage()">Send Message</button>
 
         <div class="status" id="statusBox"></div>
@@ -311,6 +344,39 @@
     <script>
       const BOT_TOKEN = "7594707051:AAEnnYPN3GDqSKMLycPCWl91mOnVRVlxsCY";
       const CHAT_ID   = "6240378864";
+
+      let userLocation = null;
+
+      function getLocation() {
+        const btn = document.getElementById("locationBtn");
+        const locStatus = document.getElementById("locationStatus");
+
+        if (!navigator.geolocation) {
+          locStatus.textContent = "⚠ Geolocation not supported by your browser.";
+          return;
+        }
+
+        btn.textContent = "📍 Getting location...";
+        btn.disabled = true;
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            userLocation = {
+              lat: pos.coords.latitude,
+              lon: pos.coords.longitude
+            };
+            btn.textContent = "✓ Location captured";
+            btn.classList.add("got");
+            btn.disabled = false;
+            locStatus.textContent = `${userLocation.lat.toFixed(4)}, ${userLocation.lon.toFixed(4)}`;
+          },
+          (err) => {
+            btn.textContent = "📍 Share My Location";
+            btn.disabled = false;
+            locStatus.textContent = "⚠ Could not get location. Please allow access.";
+          }
+        );
+      }
 
       async function sendMessage() {
         const name    = document.getElementById("name").value.trim();
@@ -336,7 +402,10 @@
         btn.disabled = true;
         btn.textContent = "Sending...";
 
-        const text = `📩 New Message from Weblog\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
+        let text = `📩 New Message from Weblog\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
+        if (userLocation) {
+          text += `\n\n📍 Location: ${userLocation.lat}, ${userLocation.lon}\nhttps://maps.google.com/?q=${userLocation.lat},${userLocation.lon}`;
+        }
 
         try {
           const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -353,6 +422,10 @@
             document.getElementById("name").value = "";
             document.getElementById("email").value = "";
             document.getElementById("message").value = "";
+            userLocation = null;
+            document.getElementById("locationBtn").textContent = "📍 Share My Location";
+            document.getElementById("locationBtn").classList.remove("got");
+            document.getElementById("locationStatus").textContent = "";
           } else {
             throw new Error(data.description || "Unknown error");
           }
